@@ -1,307 +1,292 @@
-# LSE Study Hub
+# LSE Study Hub - Independent Edition 🎓
 
-A comprehensive study platform designed for LSE Economics students to manage lecture slides, annotate PDFs, take notes, and interact with an AI study assistant.
+A completely independent study platform for LSE Economics students. Manage lecture slides, annotate PDFs, take notes, and chat with AI - all without requiring any third-party platforms!
 
-## Features
-
-### 📚 Module Management
-- Create and organize modules by course
-- Upload lecture slides (PDFs) with cloud storage
-- Drag-and-drop file uploads
-- View all slides organized by module
-
-### 📝 Deep Focus Mode
-- **PDF Viewer (2/3 screen)**: 
-  - View lecture slides with zoom and navigation
-  - Highlight tool with text detection
-  - Pen tool for drawing annotations
-  - Persistent annotations saved to cloud
-  - Drag-and-drop to import PDFs
-
-- **Study Sidebar (1/3 screen)**:
-  - **Questions & Notes**: Block-based note-taking system for quick capture of questions or concepts
-  - **AI Study Assistant**: Chat with GPT connected to your PDF content using RAG (Retrieval-Augmented Generation)
-  - Customizable system prompt for AI behavior
-
-### 🤖 AI Features
-- Context-aware chatbot that reads your lecture materials
-- Answers questions based on PDF content
-- Customizable AI personality/instructions
-
-## Tech Stack
-
-- **Frontend**: React 19, TypeScript, Vite
-- **Backend**: Express, tRPC
-- **Database**: MySQL with Drizzle ORM
-- **Storage**: Manus Cloud Storage
-- **AI**: Manus Forge API (OpenAI-compatible)
-- **UI**: Tailwind CSS, Radix UI, shadcn/ui
-- **PDF**: react-pdf, pdf-parse
-
-## Prerequisites
-
-- Node.js 18+ and pnpm
-- MySQL database
-- Manus Platform account (for authentication and API access)
-
-## Getting Started
-
-### 1. Clone the Repository
+## ⚡ Quick Start (3 Steps!)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/lse-study-hub.git
-cd lse-study-hub
-```
-
-### 2. Install Dependencies
-
-```bash
+# 1. Install dependencies
 pnpm install
-```
 
-### 3. Environment Configuration
+# 2. Create .env file (or use the default - it just works!)
+echo 'DATABASE_URL=file:./local.db
+LOCAL_MODE=true
+OPENAI_API_KEY=' > .env
 
-Create a `.env` file in the root directory:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your configuration:
-
-```env
-# App Configuration
-VITE_APP_ID=your-manus-app-id
-
-# JWT Secret (generate a random string)
-JWT_SECRET=your-random-jwt-secret-here
-
-# Database (MySQL)
-DATABASE_URL=mysql://user:password@host:port/database
-
-# OAuth (Manus Platform)
-OAUTH_SERVER_URL=https://auth.manus.im
-OWNER_OPEN_ID=your-owner-open-id
-
-# Manus Forge API
-BUILT_IN_FORGE_API_URL=https://forge.manus.im
-BUILT_IN_FORGE_API_KEY=your-forge-api-key
-
-NODE_ENV=development
-```
-
-### 4. Database Setup
-
-Run database migrations:
-
-```bash
-pnpm db:push
-```
-
-### 5. Run Development Server
-
-```bash
+# 3. Start the app!
 pnpm dev
 ```
 
-The app will be available at `http://localhost:5000`
+**That's it!** Open [http://localhost:5000](http://localhost:5000) 🚀
 
-## Deployment
+Everything works locally - no signups, no API keys needed (except AI chat).
 
-### Vercel Deployment
+## 🎯 What Works Out of the Box
 
-1. **Prepare for Deployment**:
-   - Ensure all environment variables are set
-   - Commit all changes to Git
-   - Push to GitHub
+With zero configuration:
+- ✅ Upload and view PDFs
+- ✅ Annotate with highlights and pen tools
+- ✅ Create modules and organize slides
+- ✅ Take notes and questions
+- ✅ Everything saves to local SQLite database
+- ✅ Files stored in `local_storage/` folder
 
-2. **Connect to Vercel**:
-   - Go to [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Configure environment variables in Vercel dashboard
+**Only need API key for:** AI chat feature (~$0.01-0.10 per conversation)
 
-3. **Build Settings**:
-   - Build Command: `pnpm build`
-   - Output Directory: `dist`
-   - Install Command: `pnpm install`
+## 🚀 Features
 
-4. **Environment Variables** (add these in Vercel):
-   - `VITE_APP_ID`
-   - `JWT_SECRET`
-   - `DATABASE_URL`
-   - `OAUTH_SERVER_URL`
-   - `OWNER_OPEN_ID`
-   - `BUILT_IN_FORGE_API_URL`
-   - `BUILT_IN_FORGE_API_KEY`
-   - `NODE_ENV=production`
+### 📚 Module Management
+- Create and organize modules by course
+- Upload lecture slides (PDFs) via drag-and-drop
+- Cloud storage with automatic fallback to local files
 
-### Database Recommendations
+### 📝 Deep Focus Mode
+- **PDF Viewer (2/3 screen)**: 
+  - View slides with zoom and navigation
+  - Highlight tool with text detection
+  - Pen tool for freehand drawing
+  - **Persistent annotations** - saved automatically
+  - Drag-and-drop PDF import
 
-For production, use a managed MySQL service:
-- **PlanetScale**: Serverless MySQL, generous free tier
-- **AWS RDS**: Reliable and scalable
-- **Railway**: Simple deployment with MySQL
-- **DigitalOcean**: Managed databases
+- **Study Sidebar (1/3 screen)**:
+  - **Questions & Notes**: Block-based note-taking
+  - **AI Study Assistant**: GPT-powered chat with PDF context (RAG)
+  - Customizable system prompts
 
-## Project Structure
+### 🤖 AI Features (Optional)
+- Direct OpenAI API integration
+- Uses `gpt-4o-mini` (cost-effective) by default
+- Context-aware: AI reads your PDFs
+- Customizable behavior
+
+## 💰 Cost Breakdown
+
+### Completely Free
+- Local development: **$0**
+- SQLite database: **$0**
+- File storage (local): **$0**
+- All core features: **$0**
+
+### Optional AI Chat
+- OpenAI API: **~$0.01-0.10 per study session**
+- First $5 free credit for new accounts
+- Change to `gpt-4o` for better quality (slightly more expensive)
+
+### Production Deployment (Optional)
+- Vercel hosting: **Free** (100GB bandwidth)
+- Supabase (database + storage): **Free** (500MB + 1GB)
+- Total: **~$1-5/month** for personal use with AI
+
+## 🤖 Adding AI Chat (Optional)
+
+1. Get OpenAI API key from [platform.openai.com](https://platform.openai.com)
+2. Add to your `.env`:
+
+```env
+OPENAI_API_KEY=sk-proj-...your-key
+```
+
+That's it! AI chat will work instantly.
+
+## ☁️ Production Deployment
+
+### Option 1: Vercel + Supabase (Recommended - All Free Tier)
+
+**Setup Supabase** (5 minutes):
+1. Sign up at [supabase.com](https://supabase.com)
+2. Create project → Get credentials
+3. Create storage bucket: `study-hub-files` (make public)
+
+**Deploy to Vercel** (3 minutes):
+1. Push to GitHub
+2. Import at [vercel.com](https://vercel.com)
+3. Add environment variables:
+
+```env
+OPENAI_API_KEY=your-key
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_KEY=your-service-key
+DATABASE_URL=postgresql://... (from Supabase)
+LOCAL_MODE=false
+NODE_ENV=production
+```
+
+4. Deploy!
+
+### Option 2: Keep It Simple (MySQL + Local Files)
+
+```env
+DATABASE_URL=mysql://user:pass@host/db
+OPENAI_API_KEY=your-key
+LOCAL_MODE=false
+```
+
+Files save to `local_storage/` on your server.
+
+## 📖 Tech Stack
+
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS
+- **Backend**: Express, tRPC (type-safe APIs)
+- **Database**: SQLite (local) or MySQL/Postgres (production)
+- **Storage**: Local filesystem or Supabase Storage
+- **AI**: Direct OpenAI API integration
+- **PDF**: react-pdf, pdf-parse
+- **UI**: Radix UI, shadcn/ui components
+
+## 📁 Project Structure
 
 ```
 lse-study-hub/
-├── client/                 # Frontend React application
+├── local.db              # SQLite database (auto-created)
+├── local_storage/        # Uploaded files (local mode)
+├── .env                  # Your configuration
+├── client/               # React frontend
 │   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── hooks/         # Custom React hooks
-│   │   └── lib/           # Utilities and tRPC client
-├── server/                # Backend Express + tRPC server
-│   ├── _core/            # Core server utilities
-│   ├── db.ts             # Database operations
-│   ├── routers.ts        # tRPC API routes
-│   └── storage.ts        # Cloud storage integration
-├── drizzle/              # Database schema and migrations
-├── shared/               # Shared types and constants
-└── package.json
+│   │   ├── pages/        # Main pages
+│   │   └── components/   # UI components
+├── server/               # Express backend
+│   ├── auth.ts          # Simple local auth
+│   ├── storage.ts       # File storage (local/Supabase)
+│   ├── db.ts            # Database operations
+│   └── _core/
+│       └── llm.ts       # OpenAI integration
+└── drizzle/             # Database schema
 ```
 
-## Usage Guide
+## 🛠 Development
 
-### Creating Your First Module
+```bash
+# Start dev server
+pnpm dev
 
-1. Log in to the application
-2. Click "My Modules" from the home page
-3. Click "New Module"
-4. Enter module details (name, code, description)
-5. Click "Create Module"
+# Build for production
+pnpm build
 
-### Uploading Lecture Slides
+# Type check
+pnpm check
 
-**Method 1: Through Module Card**
-1. Find your module card
-2. Click "Upload Slide"
-3. Select a PDF file
-4. Enter a title for the slide
-5. Click "Upload"
+# Format code
+pnpm format
 
-**Method 2: Drag and Drop**
-1. Drag a PDF file over any module card
-2. Drop the file
-3. Confirm the title and upload
+# Database migrations
+pnpm db:push
+```
 
-### Using Deep Focus Mode
+## 🎨 Customization
 
-1. Click on any slide to enter Deep Focus mode
-2. **PDF Viewer** (left side):
-   - Use zoom buttons (+/-) to adjust view
-   - Navigate pages with Previous/Next
-   - Click "Highlighter" to enable text highlighting
-   - Click "Pen" to enable freehand drawing
-   - All annotations are automatically saved
+### Change AI Model
 
-3. **Questions Section** (top right):
-   - Type your question or note
-   - Press Enter to save
-   - Hover to delete any question
+Edit `server/_core/llm.ts`:
 
-4. **AI Assistant** (bottom right):
-   - Ask questions about the lecture material
-   - The AI has context from your PDF
-   - Click settings to customize the AI's behavior
+```typescript
+model: "gpt-4o-mini"  // Change to: "gpt-4o", "gpt-4-turbo"
+```
 
-## API Reference
+### Change Theme
 
-### Modules API
+Edit `client/src/App.tsx`:
 
-- `modules.list`: Get all user modules
-- `modules.create`: Create a new module
-- `modules.delete`: Delete a module
+```typescript
+<ThemeProvider
+  defaultTheme="dark"  // "light" or "dark"
+  switchable           // Allow user toggle
+>
+```
 
-### Slides API
+### Customize AI Prompt
 
-- `slides.listByModule`: Get slides for a module
-- `slides.getById`: Get slide details
-- `slides.upload`: Upload a new slide
-- `slides.delete`: Delete a slide
+Edit `server/routers.ts` (line ~188):
 
-### Annotations API
+```typescript
+systemPrompt: "You are a helpful LSE Economics tutor..."
+```
 
-- `annotations.list`: Get annotations for a slide
-- `annotations.create`: Create new annotation
-- `annotations.delete`: Delete annotation
+## 📚 Documentation
 
-### Questions API
+- **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Detailed setup instructions
+- **[QUICK_START.md](./QUICK_START.md)** - 5-minute quick start
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Production deployment guide
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
 
-- `questions.list`: Get questions for a slide
-- `questions.create`: Create new question
-- `questions.delete`: Delete question
+## 🆘 Troubleshooting
 
-### Chat API
+### "OPENAI_API_KEY is not configured"
+- AI chat won't work without it
+- All other features work fine
+- Get key from [platform.openai.com](https://platform.openai.com)
 
-- `chat.getOrCreateSession`: Get or create chat session
-- `chat.getMessages`: Get chat messages
-- `chat.sendMessage`: Send message to AI
-- `chat.updateSystemPrompt`: Update AI instructions
+### Database not connecting
+- Check `DATABASE_URL` in `.env`
+- For local: `DATABASE_URL=file:./local.db`
+- Delete `local.db` to reset database
 
-## Development
+### Port 5000 in use
+Add to `.env`:
+```env
+PORT=3000
+```
 
-### Available Scripts
-
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm start` - Run production server
-- `pnpm check` - Type check
-- `pnpm format` - Format code with Prettier
-- `pnpm test` - Run tests
-- `pnpm db:push` - Run database migrations
-
-### Adding New Features
-
-1. **Frontend**: Add components in `client/src/components/`
-2. **Backend**: Add routes in `server/routers.ts`
-3. **Database**: Update schema in `drizzle/schema.ts`
-4. **Types**: Share types in `shared/types.ts`
-
-## Troubleshooting
-
-### PDF Not Loading
+### PDFs not loading
+- Check `local_storage/` folder exists
 - Check browser console for errors
-- Verify PDF file is not corrupted
-- Ensure storage credentials are correct
+- Try re-uploading the PDF
 
-### AI Not Responding
-- Verify `BUILT_IN_FORGE_API_KEY` is set
-- Check API key permissions
-- Review server logs for errors
+## 🎓 Usage Guide
 
-### Annotations Not Saving
-- Check database connection
-- Verify user authentication
-- Check browser console for errors
+### 1. Create a Module
+- Click "My Modules" → "New Module"
+- Enter name (e.g., "Microeconomics")
+- Add code (e.g., "EC201") and description
 
-### Database Connection Issues
-- Verify `DATABASE_URL` format
-- Check database server is running
-- Ensure network connectivity
+### 2. Upload Slides
+- **Drag-and-drop** PDF onto module card, or
+- Click "Upload Slide" → Select PDF
 
-## Contributing
+### 3. Study in Deep Focus
+- Click any slide to enter Deep Focus mode
+- Use highlight tool to mark important text
+- Use pen tool for freehand notes
+- Add questions in the right sidebar
+- Chat with AI about the material
 
-This is a personal project, but suggestions and improvements are welcome!
+## 🌟 Why This Version?
 
-## License
+**Independent**: No third-party platform required
+**Free**: Core features cost nothing  
+**Privacy**: Your data stays with you
+**Flexible**: Choose your own services (OpenAI, Supabase, etc.)
+**Simple**: Works locally with zero configuration
+**Open**: Full source code, modify as you like
 
-MIT License - feel free to use this for your studies!
+## 🚀 Roadmap
 
-## Author
+Potential future features:
+- [ ] Export annotations as PDF
+- [ ] Search across all slides
+- [ ] Study analytics dashboard
+- [ ] Pomodoro timer integration
+- [ ] Flashcard generation
+- [ ] Collaborative study rooms
+- [ ] Mobile app version
+- [ ] Offline mode (PWA)
 
-Created by an LSE Economics student for better study management.
+## 📄 License
 
-## Acknowledgments
+MIT License - Use freely for your studies!
 
-- Built with Manus Platform
-- UI components from shadcn/ui
-- PDF rendering by Mozilla's PDF.js
-- Icons by Lucide
+## 🤝 Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## 💬 Support
+
+- **Issues**: [GitHub Issues](https://github.com/xanderys/lse-study-hub/issues)
+- **Docs**: Check the guides in this repo
+- **Email**: Open an issue for support
 
 ---
 
-**Happy Studying! 📚✨**
+**Made with ❤️ for LSE Economics students**
 
+**Happy Studying! 📚✨**

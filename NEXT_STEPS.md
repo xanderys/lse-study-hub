@@ -1,291 +1,289 @@
-# 🎉 LSE Study Hub - Next Steps
+# 🎉 LSE Study Hub is NOW INDEPENDENT!
 
-Congratulations! Your code has been successfully pushed to GitHub:
-**https://github.com/xanderys/lse-study-hub**
+## ✨ What Changed?
 
-## ✅ What's Been Completed
+Your app is now **completely independent** and works without any third-party platforms!
 
-### Core Features
-✅ **Module Management** - Create and organize course modules  
-✅ **PDF Upload** - Drag-and-drop file uploads with cloud storage  
-✅ **Deep Focus Mode** - Split-screen study interface (2:3 PDF, 1:3 sidebar)  
-✅ **PDF Annotations** - Highlight and pen tools with persistent storage  
-✅ **Questions & Notes** - Block-based note-taking system  
-✅ **AI Study Assistant** - GPT-powered chat with RAG from PDFs  
-✅ **Customizable AI** - System prompt configuration  
+### Before (Manus Platform Required):
+- ❌ Needed Manus Platform account
+- ❌ Required multiple API keys
+- ❌ Complex setup
+- ❌ Dependent on external service
 
-### Technical Implementation
-✅ React 19 + TypeScript frontend  
-✅ Express + tRPC backend  
-✅ MySQL database with Drizzle ORM  
-✅ Cloud storage integration  
-✅ OAuth authentication  
-✅ Full PDF viewing and annotation  
-✅ Responsive UI with Tailwind CSS  
-
-### Documentation
-✅ Comprehensive README.md  
-✅ Deployment guide (DEPLOYMENT.md)  
-✅ GitHub setup guide (GITHUB_SETUP.md)  
-✅ Quick start guide (QUICK_START.md)  
-✅ Contributing guidelines  
-✅ Changelog  
-
-### Deployment Prep
-✅ Git repository initialized  
-✅ Code pushed to GitHub  
-✅ .gitignore configured  
-✅ Environment templates  
-✅ Vercel configuration  
-✅ Deployment scripts  
-
-## 🚀 Deploy to Vercel (5 minutes)
-
-### Step 1: Go to Vercel
-1. Visit [vercel.com](https://vercel.com)
-2. Sign in with GitHub
-3. Click "Add New..." → "Project"
-4. Import `xanderys/lse-study-hub`
-
-### Step 2: Configure Build Settings
-Vercel will auto-detect these, but verify:
-- **Framework Preset**: Vite
-- **Build Command**: `pnpm build`
-- **Output Directory**: `dist`
-- **Install Command**: `pnpm install`
-
-### Step 3: Add Environment Variables
-Click "Environment Variables" and add:
-
-```env
-VITE_APP_ID=your-manus-app-id
-JWT_SECRET=your-random-32-char-string
-DATABASE_URL=your-mysql-connection-string
-OAUTH_SERVER_URL=https://auth.manus.im
-OWNER_OPEN_ID=your-owner-open-id
-BUILT_IN_FORGE_API_URL=https://forge.manus.im
-BUILT_IN_FORGE_API_KEY=your-forge-api-key
-NODE_ENV=production
-```
-
-**💡 Tips:**
-- Generate JWT_SECRET: `openssl rand -base64 32`
-- Get Manus credentials from [manus.im](https://manus.im)
-- Use a managed MySQL service (PlanetScale recommended)
-
-### Step 4: Deploy
-1. Click "Deploy"
-2. Wait 2-3 minutes for build
-3. Get your live URL: `https://your-project.vercel.app`
-
-### Step 5: Test Your Deployment
-- [ ] Visit your URL
-- [ ] Log in
-- [ ] Create a module
-- [ ] Upload a PDF
-- [ ] Test annotations
-- [ ] Try AI chat
-
-## 📊 Recommended Database: PlanetScale
-
-### Why PlanetScale?
-- ✅ Free tier (5GB storage)
-- ✅ Serverless MySQL
-- ✅ No cold starts
-- ✅ Automatic backups (paid plans)
-- ✅ Easy Vercel integration
-
-### Setup PlanetScale (5 minutes)
-
-1. **Create Account**: [planetscale.com](https://planetscale.com)
-2. **Create Database**:
-   - Name: `lse-study-hub`
-   - Region: Choose closest to you
-3. **Get Connection String**:
-   - Settings → Passwords → New password
-   - Copy connection string
-4. **Add to Vercel**:
-   - Paste as `DATABASE_URL`
-
-### Alternative: Railway
-- [railway.app](https://railway.app) - Simple MySQL setup
-- One-click MySQL provisioning
-- $5/month for hobby plan
-
-## 🔑 Get Manus Platform Credentials
-
-1. **Sign Up**: [manus.im](https://manus.im)
-2. **Create App**: Dashboard → New App
-3. **Get Credentials**:
-   - `VITE_APP_ID`: Your app ID
-   - `BUILT_IN_FORGE_API_KEY`: API key for AI
-   - `OWNER_OPEN_ID`: Your user ID
-4. **Configure OAuth**:
-   - Add Vercel URL to allowed origins
-   - Add redirect URLs
-
-## 🎯 Post-Deployment Checklist
-
-### Immediate (Day 1)
-- [ ] Verify deployment is live
-- [ ] Test all core features
-- [ ] Check error logs in Vercel
-- [ ] Monitor database connections
-- [ ] Set up custom domain (optional)
-
-### First Week
-- [ ] Add social preview image to GitHub
-- [ ] Star your repository
-- [ ] Share with friends/classmates
-- [ ] Gather initial feedback
-- [ ] Monitor performance metrics
-
-### First Month
-- [ ] Review and optimize database queries
-- [ ] Check API usage and costs
-- [ ] Plan feature improvements
-- [ ] Consider analytics integration
-- [ ] Set up automated backups
-
-## 🛠 Helpful Commands
-
-```bash
-# Check deployment status
-pnpm deploy:check
-
-# Run local development
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Format code
-pnpm format
-
-# Type check
-pnpm check
-
-# Database migrations
-pnpm db:push
-```
-
-## 📱 Accessing Your Site
-
-### Your URLs
-- **GitHub**: https://github.com/xanderys/lse-study-hub
-- **Vercel** (after deployment): https://your-project.vercel.app
-- **Custom Domain** (optional): your-domain.com
-
-### Share Your Project
-```markdown
-Check out my LSE Study Hub! 🎓
-- Annotate PDFs with AI assistance
-- Organize lecture materials
-- Study smarter with RAG-powered chat
-
-🔗 Live: [your-vercel-url]
-📦 Code: https://github.com/xanderys/lse-study-hub
-```
-
-## 🐛 Troubleshooting
-
-### Build Fails
-- Check environment variables
-- Review build logs in Vercel
-- Test build locally: `pnpm build`
-
-### Database Connection Issues
-- Verify `DATABASE_URL` format
-- Check database is accessible
-- Review connection limits
-
-### AI Not Working
-- Verify `BUILT_IN_FORGE_API_KEY`
-- Check API quota
-- Review Manus Platform status
-
-### PDF Upload Fails
-- Check storage credentials
-- Review file size limits
-- Check browser console errors
-
-## 📚 Documentation Reference
-
-- **README.md** - Full documentation
-- **DEPLOYMENT.md** - Detailed deployment guide
-- **GITHUB_SETUP.md** - Git workflow
-- **QUICK_START.md** - Fast local setup
-- **DEPLOYMENT_CHECKLIST.md** - Pre-deployment checks
-- **CONTRIBUTING.md** - Contribution guidelines
-
-## 🎨 Customization Ideas
-
-### Theme
-- Edit `client/src/index.css` for colors
-- Change `defaultTheme` in `App.tsx` (light/dark)
-
-### AI Behavior
-- Customize default system prompt in `server/routers.ts`
-- Add preset prompts for different subjects
-
-### Features to Add
-- 📊 Study analytics dashboard
-- ⏱ Pomodoro timer
-- 🎴 Flashcard generation
-- 📤 Export annotations as PDF
-- 🔍 Search across all slides
-- 👥 Collaborative study rooms
-
-## 💡 Pro Tips
-
-1. **Database Optimization**: Add indexes for frequently queried fields
-2. **Performance**: Enable caching for module lists
-3. **Security**: Regularly rotate API keys
-4. **Monitoring**: Set up error tracking (Sentry)
-5. **Backups**: Schedule regular database backups
-6. **Updates**: Keep dependencies updated monthly
-
-## 🌟 Success Metrics
-
-Your deployment is successful when:
-- ✅ Site loads in <3 seconds
-- ✅ Users can upload and annotate PDFs
-- ✅ AI responds within 5 seconds
-- ✅ No errors in production logs
-- ✅ Database connections stable
-
-## 🤝 Need Help?
-
-### Resources
-- **Vercel Docs**: [vercel.com/docs](https://vercel.com/docs)
-- **Manus Platform**: [docs.manus.im](https://docs.manus.im)
-- **PlanetScale**: [docs.planetscale.com](https://docs.planetscale.com)
-
-### Community
-- Open issues on GitHub for bugs
-- Check existing documentation
-- Review deployment logs
-
-## 🎓 Your Study Hub Awaits!
-
-You've built something amazing! This platform will help you:
-- 📚 Stay organized throughout your LSE Economics course
-- ✍️ Take better notes with persistent annotations
-- 🤖 Study smarter with AI assistance
-- 📈 Track your learning progress
-
-### Final Steps Summary
-1. ✅ Code pushed to GitHub
-2. 🚀 Deploy to Vercel (5 min)
-3. 🗄 Set up database (5 min)
-4. 🔑 Configure environment variables
-5. ✨ Start studying!
+### Now (Independent):
+- ✅ Works locally out of the box
+- ✅ Only OpenAI API needed (for AI chat - optional!)
+- ✅ 3-step setup
+- ✅ Full control of your data
 
 ---
 
-**Ready to deploy?** → [vercel.com/new](https://vercel.com/new)
+## 🚀 Try It Right Now!
 
-**Questions?** → Check DEPLOYMENT.md or open a GitHub issue
+### 1. Install Dependencies
 
-**Happy Studying! 🎉📚**
+```bash
+cd /Users/xanderlim/lse-study-hub
+pnpm install
+```
 
+### 2. The `.env` File
+
+Create `.env` in the root:
+
+```env
+# Database - SQLite (works automatically, no setup!)
+DATABASE_URL=file:./local.db
+
+# Local mode - no authentication required
+LOCAL_MODE=true
+
+# JWT Secret - any random string
+JWT_SECRET=my-random-secret-123456
+
+# OpenAI API - only needed for AI chat (optional)
+OPENAI_API_KEY=
+
+# Leave these empty for local development
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_KEY=
+```
+
+### 3. Start the App!
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:5000](http://localhost:5000) - **Everything works!** 🎉
+
+---
+
+## 💡 What Works Without ANY API Keys
+
+- ✅ Upload PDFs (saves to `local_storage/`)
+- ✅ View and navigate PDFs
+- ✅ Annotate with highlights and pen
+- ✅ Create modules and organize slides
+- ✅ Take notes and questions
+- ✅ All data saves to `local.db` SQLite database
+
+**Only need API key for:** AI chat feature
+
+---
+
+## 🤖 Adding AI Chat (Optional - 2 minutes)
+
+### Get OpenAI API Key
+
+1. Go to [platform.openai.com](https://platform.openai.com)
+2. Sign up / Log in
+3. Go to API Keys section
+4. Create new secret key
+5. Copy the key (starts with `sk-proj-...`)
+
+### Add to `.env`
+
+```env
+OPENAI_API_KEY=sk-proj-your-actual-key-here
+```
+
+### Restart the app
+
+```bash
+# Stop the server (Ctrl+C)
+pnpm dev
+```
+
+**That's it!** AI chat now works. Cost: ~$0.01-0.10 per conversation.
+
+---
+
+## 📊 Feature Comparison
+
+| Feature | Without APIs | With OpenAI | With Supabase |
+|---------|--------------|-------------|---------------|
+| PDF Upload | ✅ Local | ✅ Local | ✅ Cloud |
+| Annotations | ✅ | ✅ | ✅ |
+| Notes | ✅ | ✅ | ✅ |
+| **AI Chat** | ❌ | ✅ | ✅ |
+| Multi-user | ❌ | ❌ | ✅ |
+| Database | SQLite | SQLite | Postgres |
+| Storage | Local files | Local files | Cloud |
+| **Cost** | **FREE** | **~$2-5/mo** | **FREE (tier)** |
+
+---
+
+## ☁️ Production Deployment (When Ready)
+
+### Option 1: Free Tier (Recommended)
+
+**Supabase** (Database + Storage + Auth):
+1. Sign up at [supabase.com](https://supabase.com)
+2. Create project → Copy credentials
+3. Create storage bucket: `study-hub-files`
+
+**Vercel** (Hosting):
+1. Push to GitHub (already done!)
+2. Go to [vercel.com](https://vercel.com)
+3. Import `xanderys/lse-study-hub`
+4. Add environment variables
+5. Deploy!
+
+**Total Cost**: $0-5/month (depending on AI usage)
+
+### Option 2: Keep It Simple
+
+Deploy with just MySQL and local file storage:
+
+```env
+DATABASE_URL=mysql://user:pass@host/database
+OPENAI_API_KEY=your-key
+LOCAL_MODE=false
+```
+
+---
+
+## 🎯 Current Repository Status
+
+**GitHub**: https://github.com/xanderys/lse-study-hub
+
+**Latest Changes**:
+- ✅ Removed Manus Platform dependencies
+- ✅ Added SQLite local database support
+- ✅ Created simple local authentication
+- ✅ Integrated OpenAI API directly
+- ✅ Added local file storage
+- ✅ Updated all documentation
+
+---
+
+## 📚 Documentation
+
+- **[README.md](./README.md)** - Main documentation (updated!)
+- **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Detailed setup guide
+- **[QUICK_START.md](./QUICK_START.md)** - 5-minute guide
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deploy to production
+
+---
+
+## 🎨 Customization
+
+### Change AI Model
+
+Edit `server/_core/llm.ts` line 281:
+
+```typescript
+model: "gpt-4o-mini"  // Change to "gpt-4o" for better quality
+```
+
+### Enable Dark Mode
+
+Edit `client/src/App.tsx`:
+
+```typescript
+<ThemeProvider
+  defaultTheme="dark"
+  switchable
+>
+```
+
+### Customize AI Behavior
+
+Edit `server/routers.ts` line ~188:
+
+```typescript
+systemPrompt: "You are an expert LSE Economics tutor..."
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "better-sqlite3" installation error
+
+```bash
+# Rebuild native modules
+pnpm rebuild better-sqlite3
+```
+
+### Port 5000 already in use
+
+```env
+# Add to .env
+PORT=3000
+```
+
+### Database file not found
+
+```bash
+# Delete and recreate
+rm local.db
+pnpm dev  # Will create fresh database
+```
+
+---
+
+## 🎓 What's Next?
+
+### Immediate (Today):
+1. ✅ Install dependencies: `pnpm install`
+2. ✅ Create `.env` file (shown above)
+3. ✅ Run: `pnpm dev`
+4. ✅ Test: Upload a PDF and annotate it!
+
+### This Week:
+- Get OpenAI API key for AI features
+- Upload your actual LSE lecture slides
+- Organize by modules (Micro, Macro, etc.)
+- Try the annotation tools
+
+### This Month:
+- Consider production deployment
+- Share with classmates
+- Customize to your needs
+- Add more features!
+
+---
+
+## 💰 Cost Summary
+
+### Development (Local):
+- **Total: $0**
+- Everything runs on your computer
+- No API calls, no charges
+
+### With AI Chat:
+- **OpenAI API**: ~$2-5/month for personal use
+- Pay as you go (charged per API call)
+- First $5 free for new accounts
+
+### Production (Optional):
+- **Vercel**: Free (100GB bandwidth)
+- **Supabase**: Free (500MB database, 1GB storage)
+- **OpenAI**: ~$2-5/month
+- **Total**: ~$2-5/month
+
+---
+
+## 🌟 You Did It!
+
+Your LSE Study Hub is now:
+- ✅ **Independent** - No third-party platforms
+- ✅ **Free** - Core features cost nothing
+- ✅ **Simple** - Works with 3 commands
+- ✅ **Yours** - Full control and customization
+
+**Ready to start?**
+
+```bash
+pnpm install
+pnpm dev
+```
+
+**Happy Studying! 🎓📚✨**
+
+---
+
+**Need help?** Check SETUP_GUIDE.md or open an issue on GitHub!
