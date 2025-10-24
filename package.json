@@ -5,15 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build": "vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && esbuild server/_core/serverless.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "setup": "bash scripts/setup-env.sh",
-    "deploy:check": "bash scripts/deploy-check.sh",
-    "postinstall": "drizzle-kit generate"
+    "deploy:check": "bash scripts/deploy-check.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.10",
