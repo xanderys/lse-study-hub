@@ -1,0 +1,1 @@
+ALTER TABLE `lectureSlides` ADD `extractedText` text;
