@@ -24,6 +24,8 @@ export default function Modules() {
   
   const [slideTitle, setSlideTitle] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragModuleId, setDragModuleId] = useState<number | null>(null);
 
   const utils = trpc.useUtils();
   const { data: modules = [], isLoading } = trpc.modules.list.useQuery();
@@ -110,6 +112,38 @@ export default function Modules() {
     };
     reader.readAsDataURL(selectedFile);
   }, [slideTitle, selectedFile, selectedModuleId, uploadSlide]);
+
+  const handleDrop = useCallback((e: React.DragEvent, moduleId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    setDragModuleId(null);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type === "application/pdf") {
+      setSelectedFile(file);
+      setSelectedModuleId(moduleId);
+      setSlideTitle(file.name.replace('.pdf', ''));
+      setIsUploadOpen(true);
+      toast.success("PDF ready to upload");
+    } else {
+      toast.error("Please drop a PDF file");
+    }
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent, moduleId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    setDragModuleId(moduleId);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    setDragModuleId(null);
+  }, []);
 
   if (!isAuthenticated) {
     navigate("/");
@@ -208,6 +242,7 @@ export default function Modules() {
               <ModuleCard
                 key={module.id}
                 module={module}
+                isDragging={isDragging && dragModuleId === module.id}
                 onUpload={(id) => {
                   setSelectedModuleId(id);
                   setIsUploadOpen(true);
@@ -217,6 +252,9 @@ export default function Modules() {
                     deleteModule.mutate({ id });
                   }
                 }}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
               />
             ))}
           </div>
@@ -275,15 +313,28 @@ function ModuleCard({
   module,
   onUpload,
   onDelete,
+  isDragging,
+  onDrop,
+  onDragOver,
+  onDragLeave,
 }: {
   module: any;
   onUpload: (id: number) => void;
   onDelete: (id: number) => void;
+  isDragging: boolean;
+  onDrop: (e: React.DragEvent, moduleId: number) => void;
+  onDragOver: (e: React.DragEvent, moduleId: number) => void;
+  onDragLeave: (e: React.DragEvent) => void;
 }) {
   const { data: slides = [] } = trpc.slides.listByModule.useQuery({ moduleId: module.id });
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card 
+      className={`hover:shadow-lg transition-all ${isDragging ? 'border-indigo-500 border-2 bg-indigo-50' : ''}`}
+      onDrop={(e) => onDrop(e, module.id)}
+      onDragOver={(e) => onDragOver(e, module.id)}
+      onDragLeave={onDragLeave}
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
@@ -306,6 +357,12 @@ function ModuleCard({
         )}
       </CardHeader>
       <CardContent>
+        {isDragging && (
+          <div className="text-center py-8 mb-4">
+            <FileUp className="w-12 h-12 text-indigo-500 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-indigo-600">Drop PDF here</p>
+          </div>
+        )}
         <div className="space-y-3">
           <div className="text-sm text-gray-600">
             {slides.length} {slides.length === 1 ? "slide" : "slides"}
