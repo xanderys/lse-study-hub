@@ -12,10 +12,21 @@ export const appRouter = router({
   system: systemRouter,
 
   auth: router({
-    me: publicProcedure.query(opts => opts.ctx.user),
+    me: publicProcedure.query(({ ctx }) => {
+      // Return the user or a default local user
+      if (ctx.user) {
+        return ctx.user;
+      }
+      // Default local user for LOCAL_MODE
+      return {
+        id: 1,
+        openId: 'local-user',
+        name: 'Local User',
+        email: 'local@example.com',
+        role: 'user' as const,
+      };
+    }),
     logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return {
         success: true,
       } as const;

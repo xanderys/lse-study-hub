@@ -30,19 +30,148 @@ export async function getDb() {
       if (ENV.databaseUrl.startsWith('file:')) {
         const dbPath = ENV.databaseUrl.replace('file:', '');
         const sqlite = new Database(dbPath);
+        
+        // Enable foreign keys for SQLite
+        sqlite.pragma('journal_mode = WAL');
+        sqlite.pragma('foreign_keys = ON');
+        
         _db = drizzleSqlite(sqlite) as any;
         console.log('[Database] Connected to SQLite:', dbPath);
+        
+        // Initialize tables if they don't exist
+        initializeSQLiteTables(sqlite);
       } else {
         // Use MySQL for production
         _db = drizzleMysql(ENV.databaseUrl);
         console.log('[Database] Connected to MySQL');
       }
     } catch (error) {
-      console.warn("[Database] Failed to connect:", error);
+      console.error("[Database] Failed to connect:", error);
       _db = null;
     }
   }
   return _db;
+}
+
+// Initialize SQLite tables
+function initializeSQLiteTables(db: Database) {
+  try {
+    // Create users table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        openId TEXT NOT NULL UNIQUE,
+        name TEXT,
+        email TEXT,
+        loginMethod TEXT,
+        role TEXT NOT NULL DEFAULT 'user',
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        updatedAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        lastSignedIn INTEGER NOT NULL DEFAULT (strftime('%s', 'now'))
+      );
+    `);
+
+    // Create modules table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS modules (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        code TEXT,
+        description TEXT,
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        updatedAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Create lectureSlides table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS lectureSlides (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        moduleId INTEGER NOT NULL,
+        userId INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        fileKey TEXT NOT NULL,
+        fileUrl TEXT NOT NULL,
+        fileName TEXT NOT NULL,
+        fileSize INTEGER,
+        mimeType TEXT,
+        extractedText TEXT,
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        updatedAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (moduleId) REFERENCES modules(id) ON DELETE CASCADE,
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Create annotations table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS annotations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slideId INTEGER NOT NULL,
+        userId INTEGER NOT NULL,
+        type TEXT NOT NULL CHECK(type IN ('highlight', 'pen')),
+        pageNumber INTEGER NOT NULL,
+        data TEXT NOT NULL,
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        updatedAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (slideId) REFERENCES lectureSlides(id) ON DELETE CASCADE,
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Create questions table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS questions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slideId INTEGER NOT NULL,
+        userId INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        updatedAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (slideId) REFERENCES lectureSlides(id) ON DELETE CASCADE,
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Create chatSessions table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS chatSessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slideId INTEGER NOT NULL,
+        userId INTEGER NOT NULL,
+        systemPrompt TEXT,
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        updatedAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (slideId) REFERENCES lectureSlides(id) ON DELETE CASCADE,
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Create chatMessages table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS chatMessages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sessionId INTEGER NOT NULL,
+        role TEXT NOT NULL CHECK(role IN ('user', 'assistant', 'system')),
+        content TEXT NOT NULL,
+        createdAt INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (sessionId) REFERENCES chatSessions(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Insert default local user if not exists
+    const userExists = db.prepare('SELECT COUNT(*) as count FROM users WHERE openId = ?').get('local-user') as { count: number };
+    if (userExists.count === 0) {
+      db.prepare('INSERT INTO users (openId, name, email, role) VALUES (?, ?, ?, ?)').run('local-user', 'Local User', 'local@example.com', 'admin');
+      console.log('[Database] Created default local user');
+    }
+
+    console.log('[Database] SQLite tables initialized');
+  } catch (error) {
+    console.error('[Database] Failed to initialize tables:', error);
+  }
 }
 
 export async function upsertUser(user: InsertUser): Promise<void> {
