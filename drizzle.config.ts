@@ -1,15 +1,14 @@
 import { defineConfig } from "drizzle-kit";
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL is required to run drizzle commands");
-}
+// Support both SQLite (local) and MySQL/Postgres (production)
+const databaseUrl = process.env.DATABASE_URL || "file:./local.db";
+const isSQLite = databaseUrl.startsWith("file:");
 
 export default defineConfig({
   schema: "./drizzle/schema.ts",
   out: "./drizzle",
-  dialect: "mysql",
-  dbCredentials: {
-    url: connectionString,
-  },
+  dialect: isSQLite ? "sqlite" : "mysql",
+  dbCredentials: isSQLite
+    ? { url: databaseUrl }
+    : { url: databaseUrl },
 });
